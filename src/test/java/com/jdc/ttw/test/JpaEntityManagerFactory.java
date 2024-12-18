@@ -11,10 +11,10 @@ import jakarta.persistence.Persistence;
 public class JpaEntityManagerFactory {
 
 	
-	EntityManagerFactory emf;
+	protected static EntityManagerFactory emf;
 	
 	@BeforeAll
-	public void init() {
+	public  static void init() {
 		emf = Persistence.createEntityManagerFactory("film-inventory-proj");
 	}
 	

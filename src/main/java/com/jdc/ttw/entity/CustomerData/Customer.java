@@ -1,10 +1,17 @@
 package com.jdc.ttw.entity.CustomerData;
 
+import com.jdc.ttw.entity.Listeners.EnableTimesListeners;
+import com.jdc.ttw.entity.Listeners.Times;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 import lombok.Getter;
@@ -14,10 +21,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "customer_tbl")
-public class Customer {
+public class Customer implements EnableTimesListeners{
 	@Id
-	@GeneratedValue(generator="")
-	@TableGenerator(name = "gen_cus_tbl",initialValue=1,allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(nullable = false,length=45)
 	private String name;
@@ -26,5 +32,22 @@ public class Customer {
 	
 	@Embedded
 	private Contact contact;
+	
+	@Embedded
+	private Times times;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+	private Address address;
+	 @Override
+	    public Times getTimes() {
+	        return times;
+	    }
+
+	    @Override
+	    public void setTimes(Times times) {
+	        this.times = times;
+	    }
+	
+	
 
 }

@@ -12,30 +12,31 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
-@Table(name = "inventory_tbl")
-public class Inventory implements EnableTimesListeners{
+@Table(name = "store_tbl")
+public class Store implements EnableTimesListeners{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@ManyToOne
-	private Film film;
 	
 	@Embedded
 	private Times times;
 	
-	@Override
-    public Times getTimes() {
-        return times;
-    }
+	@ManyToOne(optional = false)
+	private Film film;
+	
+	 @Override
+	    public Times getTimes() {
+	        return times;
+	    }
 
-    @Override
-    public void setTimes(Times times) {
-        this.times = times;
-    }
-	
-	
+	    @Override
+	    public void setTimes(Times times) {
+	        this.times = times;
+	    }
 
 }

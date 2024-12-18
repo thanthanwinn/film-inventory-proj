@@ -1,14 +1,12 @@
-package com.jdc.ttw.entity.BusinessData;
+package com.jdc.ttw.entity.CustomerData;
 
-import com.jdc.ttw.entity.CustomerData.Address;
-import com.jdc.ttw.entity.CustomerData.Contact;
 import com.jdc.ttw.entity.Listeners.EnableTimesListeners;
 import com.jdc.ttw.entity.Listeners.Times;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,27 +18,22 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "staff_tbl")
-public class Staff  implements EnableTimesListeners{
+@Table(name = "address_tbl")
+public class Address  implements EnableTimesListeners{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(nullable = false, length =45)
-	private String name;
-	
-	@Column(nullable = false, length =45)
-	private String loginId;
-	
-	@Column(nullable = false, length =45)
-	private String password;
-	
-	@Embedded
-	private Contact contact;
+	@Column(nullable = false, length=45)
+	private String street;
+	@Column(nullable = false, length=45)
+	private String distinct;
+	@Column(nullable = false,columnDefinition = "tinyint(1) default 1" )
+	private boolean active;
 	@Embedded
 	private Times times;
-	@ManyToOne(fetch = FetchType.LAZY,optional = true)
-	private Address address;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST) //some problem here, it will also persist the country like new.
+	private City city;
 	
 	 @Override
 	    public Times getTimes() {
@@ -52,4 +45,5 @@ public class Staff  implements EnableTimesListeners{
 	        this.times = times;
 	    }
 
+	
 }

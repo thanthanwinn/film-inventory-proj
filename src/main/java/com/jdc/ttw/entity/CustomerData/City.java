@@ -1,10 +1,9 @@
-package com.jdc.ttw.entity.BusinessData;
+package com.jdc.ttw.entity.CustomerData;
 
-import com.jdc.ttw.entity.CustomerData.Address;
-import com.jdc.ttw.entity.CustomerData.Contact;
 import com.jdc.ttw.entity.Listeners.EnableTimesListeners;
 import com.jdc.ttw.entity.Listeners.Times;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -20,27 +19,19 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "staff_tbl")
-public class Staff  implements EnableTimesListeners{
+@Table(name = "country_tbl")
+public class City implements EnableTimesListeners{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(nullable = false, length =45)
+	@Column(nullable = false, length=45)
 	private String name;
-	
-	@Column(nullable = false, length =45)
-	private String loginId;
-	
-	@Column(nullable = false, length =45)
-	private String password;
-	
-	@Embedded
-	private Contact contact;
 	@Embedded
 	private Times times;
-	@ManyToOne(fetch = FetchType.LAZY,optional = true)
-	private Address address;
+	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+	private Country country;
+	@Column(nullable = false,columnDefinition = "tinyint(1) default 1" )
+	private boolean active;
 	
 	 @Override
 	    public Times getTimes() {
@@ -51,5 +42,6 @@ public class Staff  implements EnableTimesListeners{
 	    public void setTimes(Times times) {
 	        this.times = times;
 	    }
+	
 
 }
